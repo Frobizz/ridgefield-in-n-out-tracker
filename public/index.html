@@ -1,55 +1,109 @@
+
+
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Is Ridgefield In-N-Out open yet?</title>
+
+  <!-- SEO Title -->
+  <title>Ridgefield In-N-Out Opening Tracker – Live Updates & Official News</title>
+
+  <!-- SEO Meta Description -->
+  <meta name="description" content="Get daily updates on the Ridgefield, WA In-N-Out Burger opening date. See official sources, news coverage, and live status updates." />
+
+  <!-- Open Graph for Social Sharing -->
+  <meta property="og:title" content="Ridgefield In-N-Out Opening Tracker – Live Updates & Official News" />
+  <meta property="og:description" content="Track the Ridgefield, WA In-N-Out opening date with daily updates from official sources and local news." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta property="og:image" content="https://yourdomain.com/cover-image.jpg" />
+
+  <!-- Structured Data for FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When will the Ridgefield In-N-Out open?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The exact opening date has not been officially announced. This page is updated daily with information from official In-N-Out sources and local news."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is the Ridgefield In-N-Out located?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Ridgefield In-N-Out is located at 5801 N. Pioneer Canyon Dr, Ridgefield, WA."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will the Ridgefield In-N-Out have a drive-thru?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Based on building permits and local news reports, the Ridgefield In-N-Out is expected to feature a drive-thru like other locations."
+        }
+      }
+    ]
+  }
+  </script>
+
   <style>
-    :root { color-scheme: light dark; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif; margin: 2rem; display: grid; place-items: start; }
-    .card { max-width: 720px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 10px 24px rgba(0,0,0,.06); }
-    .status { font-size: clamp(2rem, 4vw, 2.6rem); margin: 0 0 .25rem; line-height: 1.2; }
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .card { max-width: 700px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 14px; }
+    .status { font-size: 2.2rem; margin: 0 0 .25rem; }
     .meta { color: #666; font-size: .95rem; }
     .open { color: #0a7a0a; }
     .not { color: #b00020; }
     .signals { margin-top: .75rem; }
     .signals li { margin: .25rem 0; }
-    .btn { display: inline-block; padding: .5rem .75rem; border: 1px solid #bbb; border-radius: 10px; text-decoration: none; color: inherit; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1 class="status" id="status">Checking…</h1>
-    <div class="meta" id="timestamp"></div>
-    <ul class="signals" id="signals"></ul>
-    <p class="meta">Auto-checks daily. Data from official In-N-Out pages.</p>
-    <p><a class="btn" href="/api/check" rel="nofollow">Force refresh now</a></p>
-  </div>
+  <header>
+    <h1>Is the Ridgefield, WA In-N-Out Open Yet?</h1>
+    <p>We track official sources and local news to bring you daily updates on the Ridgefield In-N-Out Burger opening date.</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2 class="status" id="status">Checking…</h2>
+      <div class="meta" id="timestamp"></div>
+      <ul class="signals" id="signals"></ul>
+      <p class="meta">Auto-checks daily. Data from official In-N-Out pages.</p>
+      <p><a href="/api/check" rel="nofollow">Force refresh now</a></p>
+    </div>
+
+    <section>
+      <h2>Frequently Asked Questions</h2>
+      <h3>When will the Ridgefield In-N-Out open?</h3>
+      <p>The exact opening date has not been officially announced. This page is updated daily with the latest information.</p>
+
+      <h3>Where is the Ridgefield In-N-Out located?</h3>
+      <p>5801 N. Pioneer Canyon Dr, Ridgefield, WA.</p>
+
+      <h3>Will it have a drive-thru?</h3>
+      <p>Yes, based on construction plans and typical In-N-Out layouts.</p>
+    </section>
+  </main>
+
   <script>
     (async () => {
-      try {
-        // Try to read status.json from Blob first (fast), otherwise fall back to hitting the API.
-        let data;
-        try {
-          const r1 = await fetch('https://blob.vercel-storage.com/status.json', { mode: 'no-cors' });
-          // In many cases Blob domain won't allow no-cors JSON; so we simply skip to API if opaque.
-          if (r1 && r1.ok) data = await r1.json();
-        } catch {}
-        if (!data) {
-          const r2 = await fetch('/api/check', { cache: 'no-store' });
-          data = await r2.json();
-        }
-        const elStatus = document.getElementById('status');
-        const elTs = document.getElementById('timestamp');
-        const elSig = document.getElementById('signals');
-        elStatus.textContent = (data.status === 'OPEN') ? '✅ OPEN' : '⏳ Not open yet';
-        elStatus.className = 'status ' + (data.status === 'OPEN' ? 'open' : 'not');
-        elTs.textContent = 'Last checked: ' + (data.last_checked_utc || '—');
-        elSig.innerHTML = (data.signals || []).map(s => `<li>${s}</li>`).join('') || '<li>No official confirmation yet.</li>';
-      } catch (e) {
-        document.getElementById('status').textContent = '⚠️ Error loading status';
-        document.getElementById('timestamp').textContent = '';
-      }
+      const r = await fetch('/api/check');
+      const data = await r.json();
+      const elStatus = document.getElementById('status');
+      const elTs = document.getElementById('timestamp');
+      const elSig = document.getElementById('signals');
+
+      elStatus.textContent = (data.status === 'OPEN') ? '✅ OPEN' : '⏳ Not open yet';
+      elStatus.className = 'status ' + (data.status === 'OPEN' ? 'open' : 'not');
+      elTs.textContent = 'Last checked: ' + (data.last_checked_utc || '—');
+      elSig.innerHTML = (data.signals || []).map(s => `<li>${s}</li>`).join('') || '<li>No official confirmation yet.</li>';
     })();
   </script>
 </body>
