@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 import json
+
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         body = json.dumps({"ok": True, "msg": "pong"}).encode()
