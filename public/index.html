@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Is Ridgefield In-N-Out open yet?</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif; margin: 2rem; display: grid; place-items: start; }
+    .card { max-width: 720px; padding: 1.5rem; border: 1px solid #ddd; border-radius: 16px; box-shadow: 0 10px 24px rgba(0,0,0,.06); }
+    .status { font-size: clamp(2rem, 4vw, 2.6rem); margin: 0 0 .25rem; line-height: 1.2; }
+    .meta { color: #666; font-size: .95rem; }
+    .open { color: #0a7a0a; }
+    .not { color: #b00020; }
+    .signals { margin-top: .75rem; }
+    .signals li { margin: .25rem 0; }
+    .btn { display: inline-block; padding: .5rem .75rem; border: 1px solid #bbb; border-radius: 10px; text-decoration: none; color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 class="status" id="status">Checking…</h1>
+    <div class="meta" id="timestamp"></div>
+    <ul class="signals" id="signals"></ul>
+    <p class="meta">Auto-checks daily. Data from official In-N-Out pages.</p>
+    <p><a class="btn" href="/api/check" rel="nofollow">Force refresh now</a></p>
+  </div>
+  <script>
+    (async () => {
+      try {
+        // Try to read status.json from Blob first (fast), otherwise fall back to hitting the API.
+        let data;
+        try {
+          const r1 = await fetch('https://blob.vercel-storage.com/status.json', { mode: 'no-cors' });
+          // In many cases Blob domain won't allow no-cors JSON; so we simply skip to API if opaque.
+          if (r1 && r1.ok) data = await r1.json();
+        } catch {}
+        if (!data) {
+          const r2 = await fetch('/api/check', { cache: 'no-store' });
+          data = await r2.json();
+        }
+        const elStatus = document.getElementById('status');
+        const elTs = document.getElementById('timestamp');
+        const elSig = document.getElementById('signals');
+        elStatus.textContent = (data.status === 'OPEN') ? '✅ OPEN' : '⏳ Not open yet';
+        elStatus.className = 'status ' + (data.status === 'OPEN' ? 'open' : 'not');
+        elTs.textContent = 'Last checked: ' + (data.last_checked_utc || '—');
+        elSig.innerHTML = (data.signals || []).map(s => `<li>${s}</li>`).join('') || '<li>No official confirmation yet.</li>';
+      } catch (e) {
+        document.getElementById('status').textContent = '⚠️ Error loading status';
+        document.getElementById('timestamp').textContent = '';
+      }
+    })();
+  </script>
+</body>
+</html>
