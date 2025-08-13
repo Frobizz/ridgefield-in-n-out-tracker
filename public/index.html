@@ -63,48 +63,68 @@
     .signals { margin-top: .75rem; }
     .signals li { margin: .25rem 0; }
   </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ✅ Google Search Console Verification -->
+  <!-- Replace CONTENT_VALUE_HERE with the meta tag content value from Search Console -->
+  <meta name="google-site-verification" content="D73bnDLftC37sB8H18G-mAs98DowYiFuKBUbitazn" />
+
+  <!-- ✅ Google AdSense -->
+  <!-- Replace ca-pub-xxxxxxxxxxxxxxxx with your publisher ID -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5907650023117465"
+     crossorigin="anonymous"></script>
+
+  <title>Ridgefield In-N-Out Tracker</title>
+  <meta name="description" content="Live updates on the Ridgefield, WA In-N-Out opening date, status tracker, and countdown." />
 </head>
 <body>
   <header>
-    <h1>Is the Ridgefield, WA In-N-Out Open Yet?</h1>
-    <p>We track official sources and local news to bring you daily updates on the Ridgefield In-N-Out Burger opening date.</p>
+    <h1>Ridgefield In-N-Out Tracker</h1>
+    <p>Get the latest updates on when the Ridgefield, WA In-N-Out will open.</p>
   </header>
 
   <main>
-    <div class="card">
-      <h2 class="status" id="status">Checking…</h2>
-      <div class="meta" id="timestamp"></div>
-      <ul class="signals" id="signals"></ul>
-      <p class="meta">Auto-checks daily. Data from official In-N-Out pages.</p>
-      <p><a href="/api/check" rel="nofollow">Force refresh now</a></p>
-    </div>
+    <section id="status">
+      <h2>Opening Status</h2>
+      <div id="status-box">
+        Loading status...
+      </div>
+    </section>
 
-    <section>
-      <h2>Frequently Asked Questions</h2>
-      <h3>When will the Ridgefield In-N-Out open?</h3>
-      <p>The exact opening date has not been officially announced. This page is updated daily with the latest information.</p>
-
-      <h3>Where is the Ridgefield In-N-Out located?</h3>
-      <p>5801 N. Pioneer Canyon Dr, Ridgefield, WA.</p>
-
-      <h3>Will it have a drive-thru?</h3>
-      <p>Yes, based on construction plans and typical In-N-Out layouts.</p>
+    <!-- ✅ AdSense Ad Unit Example -->
+    <!-- Replace data-ad-slot with the one from your AdSense dashboard -->
+    <section class="ads">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </section>
   </main>
 
-  <script>
-    (async () => {
-      const r = await fetch('/api/check');
-      const data = await r.json();
-      const elStatus = document.getElementById('status');
-      const elTs = document.getElementById('timestamp');
-      const elSig = document.getElementById('signals');
+  <footer>
+    <p>© 2025 Ridgefield In-N-Out Tracker</p>
+  </footer>
 
-      elStatus.textContent = (data.status === 'OPEN') ? '✅ OPEN' : '⏳ Not open yet';
-      elStatus.className = 'status ' + (data.status === 'OPEN' ? 'open' : 'not');
-      elTs.textContent = 'Last checked: ' + (data.last_checked_utc || '—');
-      elSig.innerHTML = (data.signals || []).map(s => `<li>${s}</li>`).join('') || '<li>No official confirmation yet.</li>';
-    })();
+  <!-- Your API fetch script -->
+  <script>
+    fetch('/api/check')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('status-box').innerText = data.status || 'No status available';
+      })
+      .catch(() => {
+        document.getElementById('status-box').innerText = 'Error fetching status';
+      });
   </script>
 </body>
 </html>
+
