@@ -1,16 +1,15 @@
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ridgefield, WA In-N-Out Opening Tracker</title>
 
   <!-- SEO -->
-  <meta name="description" content="Live updates on the opening date for In-N-Out Burger in Ridgefield, Washington. Check daily for news and updates." />
-  <meta name="keywords" content="In-N-Out Ridgefield WA opening date, Ridgefield In-N-Out Burger, In-N-Out opening Washington, Ridgefield Washington new restaurant" />
+  <meta name="description" content="Live updates on the opening date for In-N-Out Burger in Ridgefield, Washington. Check daily for news and official announcements." />
   <link rel="canonical" href="https://in-n-out-ridgefieldtracker.com/" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Open Graph -->
   <meta property="og:title" content="Ridgefield In-N-Out Opening Tracker" />
   <meta property="og:description" content="Daily updates on the official opening date for the Ridgefield, WA In-N-Out Burger." />
   <meta property="og:url" content="https://in-n-out-ridgefieldtracker.com/" />
@@ -23,14 +22,13 @@
   <meta name="twitter:description" content="Daily updates on the Ridgefield, WA In-N-Out Burger opening date." />
   <meta name="twitter:image" content="https://in-n-out-ridgefieldtracker.com/og-image.jpg" />
 
-  <!-- Google Search Console Verification -->
+  <!-- Google Search Console -->
   <meta name="google-site-verification" content="D73bnDLftC37sB8H18G-mAs98DowYiFuKBUbitaznw4" />
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5907650023117465"
-     crossorigin="anonymous"></script>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5907650023117465" crossorigin="anonymous"></script>
 
-  <!-- Google Analytics 4 -->
+  <!-- GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LNNTQZM6VW"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -38,5 +36,93 @@
     gtag('js', new Date());
     gtag('config', 'G-LNNTQZM6VW');
   </script>
-</head>
 
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"When will the In-N-Out in Ridgefield, WA open?","acceptedAnswer":{"@type":"Answer","text":"The official opening date has not yet been announced. This page is updated daily with information from official sources."}},
+      {"@type":"Question","name":"Where is it located?","acceptedAnswer":{"@type":"Answer","text":"The Ridgefield In-N-Out is near the I-5 / Pioneer St interchange in Ridgefield, WA."}},
+      {"@type":"Question","name":"Will there be a drive-thru?","acceptedAnswer":{"@type":"Answer","text":"Yes, like most In-N-Out locations, a drive-thru is expected."}}
+    ]
+  }
+  </script>
+
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    header { max-width: 840px; }
+    .card { max-width: 840px; padding: 16px; border: 1px solid #ddd; border-radius: 14px; margin: 16px 0; }
+    .status { font-size: clamp(1.8rem, 4vw, 2.4rem); margin: 0 0 .5rem; }
+    .open { color: #0a7a0a; } .not { color: #b00020; }
+    .meta { color: #666; font-size: .95rem; }
+    .signals { margin-top: .5rem; }
+    .signals li { margin: .25rem 0; }
+    .ads { margin: 20px 0; }
+    footer { margin-top: 32px; color: #666; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Is the Ridgefield, WA In-N-Out Open Yet?</h1>
+    <p>We monitor official In-N-Out pages and local sources daily and post updates here.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2 class="status" id="status">Checking…</h2>
+      <div class="meta" id="timestamp"></div>
+      <ul class="signals" id="signals"></ul>
+      <p class="meta">Auto-checks daily. Data from official In-N-Out pages.</p>
+      <p><a href="/api/check" rel="nofollow">Force refresh now</a></p>
+    </section>
+
+    <!-- AdSense unit -->
+    <section class="ads">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5907650023117465"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </section>
+
+    <section class="card">
+      <h2>FAQ</h2>
+      <h3>When will the Ridgefield In-N-Out open?</h3>
+      <p>The exact opening date has not been officially announced. This page will update as soon as it is.</p>
+      <h3>Where is it located?</h3>
+      <p>Near the I-5 / Pioneer St interchange in Ridgefield, WA.</p>
+      <h3>Will it have a drive-thru?</h3>
+      <p>Yes, a drive-thru is expected along with dine-in service.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Ridgefield In-N-Out Tracker • <a href="/sitemap.xml">Sitemap</a></p>
+  </footer>
+
+  <script>
+    (async () => {
+      try {
+        const r = await fetch('/api/check', { cache: 'no-store' });
+        const data = await r.json();
+        const elStatus = document.getElementById('status');
+        const elTs = document.getElementById('timestamp');
+        const elSig = document.getElementById('signals');
+
+        elStatus.textContent = (data.status === 'OPEN') ? '✅ OPEN' : '⏳ Not open yet';
+        elStatus.className = 'status ' + (data.status === 'OPEN' ? 'open' : 'not');
+        elTs.textContent = 'Last checked: ' + (data.last_checked_utc || '—');
+        elSig.innerHTML = (data.signals || []).map(s => `<li>${s}</li>`).join('') || '<li>No official confirmation yet.</li>';
+      } catch (e) {
+        document.getElementById('status').textContent = '⚠️ Error loading status';
+        document.getElementById('timestamp').textContent = '';
+      }
+    })();
+  </script>
+</body>
+</html>
