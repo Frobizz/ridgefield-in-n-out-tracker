@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://in-n-out-ridgefieldtracker.com/sitemap.xml
